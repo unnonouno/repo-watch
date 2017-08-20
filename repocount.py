@@ -2,19 +2,20 @@
 
 import argparse
 import csv
+import json
 import sys
-
-import requests
+import urllib2
 
 
 def download_json(url):
-    r = requests.get(url)
+    f = urllib2.urlopen(url)
+    js = json.loads(f.read())
 
-    if r.status_code != 200:
-        print(r.json())
+    if f.getcode() != 200:
+        print(js)
         sys.exit(1)
 
-    return r.json()
+    return js
 
 
 def get_count(owner, repo, keys):
